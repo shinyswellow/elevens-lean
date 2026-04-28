@@ -15,11 +15,33 @@ lean/          Lean 4 formalization (see lean/README.md for setup)
 python/        Python dynamic-programming script (cross-verification)
 ```
 
+## Verifying the proofs
+
+The confluence proofs are split across two files. `lean/ElevensChallenge.lean` imports
+`Elevens/Basic.lean` (type definitions and game rules, ~200 lines) and states the four
+main theorems with `sorry`. `lean/ElevensSolution.lean` proves them by importing the
+proof modules.
+
+[comparator](https://github.com/leanprover/comparator) can mechanically check that the
+solution's proofs match the challenge's theorem statements and use only standard axioms
+(propext, Quot.sound, Classical.choice):
+
+```bash
+cd lean && lake env comparator comparator.json
+# Your solution is okay!
+```
+
+The win-probability theorems use `native_decide` and are outside comparator's scope —
+its sandboxed kernel replay cannot run a 42-minute native compilation. Those results are
+independently verified by `python/exact.py`.
+
 ## Lean files
 
 | File | Contents |
 |------|----------|
-| `lean/Elevens/Basic.lean` | Card types, `GameState`, `RankState`, legal moves, winnability |
+| `lean/Elevens/Basic.lean` | Card types, `GameState`, `RankState`, legal moves, winnability — **audit here first** |
+| `lean/ElevensChallenge.lean` | Theorem statements with `sorry` — the comparator challenge |
+| `lean/ElevensSolution.lean` | Proofs by delegation to the modules below |
 | `lean/Elevens/Confluence.lean` | Lemmas 3.1–3.3 and Theorem 3.4 (outcome determinism) |
 | `lean/Elevens/ConfluenceFlip.lean` | Theorem 5.1 (confluence for the flip variant) |
 | `lean/Elevens/WinProb.lean` | POC DP spike (6-rank game, `poc_win_prob = 3217/5775`) |
