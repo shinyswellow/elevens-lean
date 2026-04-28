@@ -8,3 +8,7 @@ require mathlib from git
 
 @[default_target]
 lean_lib «Elevens» where
+
+lean_lib «ElevensChallenge» where
+
+lean_lib «ElevensSolution» where
