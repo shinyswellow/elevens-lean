@@ -3,44 +3,15 @@ import Elevens.Confluence
 /-!
 # Confluence of Elevens-with-Flip Solitaire
 
-Formalizes Theorem 5.1 (flip-variant confluence) from the accompanying paper.
+Formalizes the flip-variant confluence proof from
+docs/proof/confluence_flip.md.
 
 All theorems are fully proved with no sorry placeholders.
 -/
 
 namespace Elevens
 
-/-! ## Flip definitions -/
-
-/-- Given a numeric rank r, find a board slot holding rank (complement r). -/
-def flipMatchSlot (s : GameState) (r : NumRank) : Option (Fin 9) :=
-  (List.finRange 9).find? (fun i =>
-    match s.board i with
-    | some c => c.rank == .num (complement r)
-    | none   => false)
-
-/-- Apply the flip transition. Returns `none` if flip fails. -/
-def applyFlip (s : GameState) : Option GameState :=
-  match s.pile with
-  | [] => none
-  | fc :: rest =>
-    match fc.rank with
-    | .face _ => none
-    | .num r =>
-      match flipMatchSlot s r with
-      | none   => none
-      | some i =>
-        let b' := clearSlots s.board {i}
-        let (b'', pile'') := refill b' rest
-        some { board := b'', pile := pile'' }
-
-/-! ## WinnableFlip -/
-
-/-- Winnability for the flip variant. -/
-inductive WinnableFlip : GameState → Prop where
-  | win  : IsWin s → WinnableFlip s
-  | move : IsLegal s m → WinnableFlip (applyMove s m) → WinnableFlip s
-  | flip : IsTerminal s → applyFlip s = some s' → WinnableFlip s' → WinnableFlip s
+-- flipMatchSlot, applyFlip, WinnableFlip are defined in Basic.lean.
 
 /-! ## Helper lemmas -/
 
@@ -394,7 +365,7 @@ private lemma exists_rank_twin' (s₁ s₂ : GameState) (m : Move)
       in s₂ with equal post-flip rank-state; IH gives equal winnability.
     - Case C: impossible — move availability depends only on boardRanks.
 
-    See paper §5, Theorem 5.1. -/
+    See docs/proof/confluence_flip.md §3. -/
 theorem rankState_determines_outcome_flip (s₁ s₂ : GameState)
     (h : rankState s₁ = rankState s₂) :
     WinnableFlip s₁ ↔ WinnableFlip s₂ := by
@@ -521,7 +492,7 @@ private lemma winnableFlip_fwd (s : GameState) (m₁ : Move) (h₁ : IsLegal s m
     Any two legal regular moves from the same state lead to equally-winnable
     successors in the flip variant.
 
-    See paper §5, Corollary. -/
+    See docs/proof/confluence_flip.md §4. -/
 theorem confluenceFlip (s : GameState) (m₁ m₂ : Move)
     (h₁ : IsLegal s m₁) (h₂ : IsLegal s m₂) :
     WinnableFlip (applyMove s m₁) ↔ WinnableFlip (applyMove s m₂) :=

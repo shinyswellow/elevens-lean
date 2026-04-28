@@ -160,4 +160,37 @@ def Winnable (s : GameState) : Prop :=
       IsLegal ((moves.take i.val).foldl applyMove s) (moves.get i)) ∧
     IsWin (moves.foldl applyMove s)
 
+/-! ## Flip variant definitions -/
+
+/-- Find a board slot holding the complement rank of r (for the flip mechanic). -/
+def flipMatchSlot (s : GameState) (r : NumRank) : Option (Fin 9) :=
+  (List.finRange 9).find? (fun i =>
+    match s.board i with
+    | some c => c.rank == .num (complement r)
+    | none   => false)
+
+/-- Draw the top pile card; if its numeric rank has a complement on the board,
+    swap the pile card in and remove the board card. Returns none if no rescue
+    is possible. -/
+def applyFlip (s : GameState) : Option GameState :=
+  match s.pile with
+  | [] => none
+  | fc :: rest =>
+    match fc.rank with
+    | .face _ => none
+    | .num r =>
+      match flipMatchSlot s r with
+      | none   => none
+      | some i =>
+        let b'            := clearSlots s.board {i}
+        let (b'', pile'') := refill b' rest
+        some { board := b'', pile := pile'' }
+
+/-- Winnability for the flip variant: a stuck player may draw the top pile card
+    and rescue a board match before declaring a loss. -/
+inductive WinnableFlip : GameState → Prop where
+  | win  : IsWin s → WinnableFlip s
+  | move : IsLegal s m → WinnableFlip (applyMove s m) → WinnableFlip s
+  | flip : IsTerminal s → applyFlip s = some s' → WinnableFlip s' → WinnableFlip s
+
 end Elevens
