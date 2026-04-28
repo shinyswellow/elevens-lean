@@ -15,9 +15,9 @@ Supports two configurations via GameParams:
 from __future__ import annotations
 
 import math
+import random as _random
 from dataclasses import dataclass
 from fractions import Fraction
-from functools import lru_cache
 
 
 @dataclass(frozen=True)
@@ -325,7 +325,8 @@ def initial_deal_distribution(
 
     # Sanity check: probabilities sum to 1
     total = sum(dist.values())
-    assert total == Fraction(1), f"Initial deal distribution sums to {total}, expected 1"
+    if total != Fraction(1):
+        raise ValueError(f"Initial deal distribution sums to {total}, expected 1")
 
     return dist
 
@@ -373,7 +374,6 @@ def monte_carlo_win_rate(params: GameParams, n_games: int = 100_000, seed: int =
     Plays n_games random shuffles, picks the first legal move each turn.
     Returns empirical win rate.
     """
-    import random as _random
     rng = _random.Random(seed)
 
     pairs = params.complement_pairs
@@ -447,4 +447,4 @@ def monte_carlo_win_rate(params: GameParams, n_games: int = 100_000, seed: int =
                     board[pile[pile_idx]] += 1
                     pile_idx += 1
 
-    return wins / n_games
+    return wins / n_games if n_games > 0 else 0.0
