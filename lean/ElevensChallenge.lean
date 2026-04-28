@@ -1,9 +1,11 @@
+import Elevens.Basic
+
 /-!
 # Elevens Solitaire — Challenge File
 
 This file imports `Elevens.Basic`, which itself imports only Mathlib and contains
 **only definitions** (no tactic proofs, no AI-generated proof code). A human reader
-can audit `Elevens/Basic.lean` in full in a few minutes: it is 163 lines defining
+can audit `Elevens/Basic.lean` in full in a few minutes: it is ~200 lines defining
 card types, game state, legal moves, and winnability.
 
 The theorem statements below are exactly what this project claims to have proved.
@@ -16,8 +18,6 @@ uses only standard Lean axioms (propext, Quot.sound, Classical.choice).
 42-minute native compilation is incompatible with comparator's sandboxed kernel replay.
 Those results are independently verified by `python/exact.py`.
 -/
-
-import Elevens.Basic
 
 open Elevens
 

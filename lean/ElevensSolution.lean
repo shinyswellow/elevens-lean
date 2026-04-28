@@ -1,3 +1,6 @@
+import Elevens.Confluence
+import Elevens.ConfluenceFlip
+
 /-!
 # Elevens Solitaire — Solution File
 
@@ -5,9 +8,6 @@ Proves the theorems stated in `ElevensChallenge.lean` by importing the proof mod
 Comparator verifies these proofs match the challenge statements exactly and use only
 standard Lean axioms.
 -/
-
-import Elevens.Confluence
-import Elevens.ConfluenceFlip
 
 open Elevens
 
