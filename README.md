@@ -1,6 +1,6 @@
 # Elevens Solitaire: Confluence and Exact Win Probabilities
 
-Lean 4 formalization accompanying the paper "Confluence and Exact Win Probabilities for Elevens Solitaire."
+Lean 4 formalization accompanying the paper ["Confluence and Exact Win Probabilities for Elevens Solitaire"](paper.pdf).
 
 ## Results
 
