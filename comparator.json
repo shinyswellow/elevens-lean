@@ -1,0 +1,12 @@
+{
+    "challenge_module": "ElevensChallenge",
+    "solution_module": "ElevensSolution",
+    "theorem_names": [
+        "elevens_rankState_determines_outcome",
+        "elevens_confluence",
+        "elevens_rankState_determines_outcome_flip",
+        "elevens_confluenceFlip"
+    ],
+    "permitted_axioms": ["propext", "Quot.sound", "Classical.choice"],
+    "enable_nanoda": false
+}

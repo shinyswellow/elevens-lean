@@ -3,8 +3,7 @@ import Elevens.Confluence
 /-!
 # Confluence of Elevens-with-Flip Solitaire
 
-Formalizes the flip-variant confluence proof from
-docs/proof/confluence_flip.md.
+Formalizes Theorem 5.1 (flip-variant confluence) from the accompanying paper.
 
 All theorems are fully proved with no sorry placeholders.
 -/
@@ -395,7 +394,7 @@ private lemma exists_rank_twin' (s₁ s₂ : GameState) (m : Move)
       in s₂ with equal post-flip rank-state; IH gives equal winnability.
     - Case C: impossible — move availability depends only on boardRanks.
 
-    See docs/proof/confluence_flip.md §3. -/
+    See paper §5, Theorem 5.1. -/
 theorem rankState_determines_outcome_flip (s₁ s₂ : GameState)
     (h : rankState s₁ = rankState s₂) :
     WinnableFlip s₁ ↔ WinnableFlip s₂ := by
@@ -522,7 +521,7 @@ private lemma winnableFlip_fwd (s : GameState) (m₁ : Move) (h₁ : IsLegal s m
     Any two legal regular moves from the same state lead to equally-winnable
     successors in the flip variant.
 
-    See docs/proof/confluence_flip.md §4. -/
+    See paper §5, Corollary. -/
 theorem confluenceFlip (s : GameState) (m₁ m₂ : Move)
     (h₁ : IsLegal s m₁) (h₂ : IsLegal s m₂) :
     WinnableFlip (applyMove s m₁) ↔ WinnableFlip (applyMove s m₂) :=

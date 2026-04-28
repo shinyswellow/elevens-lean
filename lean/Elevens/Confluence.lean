@@ -3,8 +3,8 @@ import Elevens.Basic
 /-!
 # Confluence of Elevens Solitaire — Main Theorems
 
-Formalizes Lemmas 1–3 and the main Outcome Determinism theorem from
-docs/proof/confluence.md.
+Formalizes Lemmas 3.1–3.3 and Theorem 3.4 (Outcome Determinism) from
+the accompanying paper.
 -/
 
 namespace Elevens
@@ -641,7 +641,7 @@ private lemma refill_countP_none (b : Board) (pile : List Card) :
   omega
 
 /-- Two disjoint legal moves applied in either order yield the same pile suffix.
-    See docs/proof/confluence.md §2, Lemma 2. -/
+    See paper §3, Lemma 3.2. -/
 private lemma disjoint_applyMove_pile_eq (s : GameState) (m₁ m₂ : Move)
     (h₁ : IsLegal s m₁) (h₂ : IsLegal s m₂)
     (hdisj : Disjoint m₁ m₂) :
@@ -1158,7 +1158,7 @@ lemma exists_rank_twin (s₁ s₂ : GameState) (m : Move)
     rank-equal successor states. By induction, successors have equal
     winnability, so the original states do too.
 
-    See docs/proof/confluence.md §2, Lemma 1. -/
+    See paper §3, Lemma 3.1. -/
 theorem rankState_determines_outcome (s₁ s₂ : GameState)
     (h : rankState s₁ = rankState s₂) :
     Winnable s₁ ↔ Winnable s₂ := by
@@ -1240,7 +1240,7 @@ theorem rankState_determines_outcome (s₁ s₂ : GameState)
 /-- **Lemma 2.** Disjoint legal moves commute: applying them in either order
     yields states with equal rank-states.
 
-    See docs/proof/confluence.md §2, Lemma 2. -/
+    See paper §3, Lemma 3.2. -/
 theorem disjoint_moves_commute (s : GameState) (m₁ m₂ : Move)
     (h₁ : IsLegal s m₁) (h₂ : IsLegal s m₂)
     (hdisj : Disjoint m₁ m₂) :
@@ -1371,7 +1371,7 @@ private lemma num_num_ranks_eq (s : GameState) (i₁ j₁ i₂ j₂ : Fin 9)
 /-- **Lemma 3.** Two legal moves sharing a board position yield successor
     states with equal rank-states.
 
-    See docs/proof/confluence.md §2, Lemma 3. -/
+    See paper §3, Lemma 3.3. -/
 theorem shared_slot_rank_preserved (s : GameState) (m₁ m₂ : Move)
     (h₁ : IsLegal s m₁) (h₂ : IsLegal s m₂)
     (hshared : ¬ Disjoint m₁ m₂) :

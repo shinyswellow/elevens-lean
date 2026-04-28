@@ -36,6 +36,6 @@ The VS Code Lean 4 extension (`leanprover.lean4`) shows proof state inline.
 
 ## Results
 
-- **P(win, standard)** ≈ 20.20% (exact rational in `WinProbFull.lean`)
-- **P(win, flip)** ≈ 19.92% (exact rational in `WinProbFull.lean`)
+- **P(win, standard)** ≈ 10.689% (exact rational in `WinProbFull.lean`)
+- **P(win, flip)** ≈ 19.923% (exact rational in `WinProbFull.lean`)
 - Confluence holds for both variants (no player choice affects outcome)

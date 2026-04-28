@@ -4,8 +4,8 @@ import Mathlib
 # Elevens Solitaire — Types and Definitions
 
 Formalizes the game state, legal moves, and rank-state projection
-used in the confluence proof. See docs/proof/confluence.md for the
-human-readable proof this file accompanies.
+used in the confluence proof. See the accompanying paper for the
+human-readable proof this file formalizes.
 -/
 
 namespace Elevens
